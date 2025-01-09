@@ -1,2 +1,52 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script>
+	// @ts-nocheck
+	import { onMount } from 'svelte';
+
+	let fetchedParentCategories = $state([]);
+	let fetchedChildCategories = $state([]);
+	let mappedCategoriesWithChildren = $state([]);
+	let isLoading = $state(true);
+
+	async function fetchCategoryData() {
+		try {
+			// Fetch parent categories
+			const parentCategoriesResponse = await fetch(`/api/parent_categories`);
+			if (!parentCategoriesResponse.ok) throw new Error('Failed to fetch parent categories');
+			fetchedParentCategories = await parentCategoriesResponse.json();
+			console.log(fetchedParentCategories);
+
+			// Fetch child categories
+
+			isLoading = false;
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
+	
+
+	onMount(fetchCategoryData);
+</script>
+
+<div class="p-3">
+	<h1 class="py-3 text-xl text-center border-b border-black">Parent Categories:</h1>
+
+	{#if isLoading}
+		<p class="text-center">Loading...</p>
+	{:else}
+		<div class="flex flex-col gap-10">
+			{#each fetchedParentCategories as parentCategory}
+				<a href="/parent_categories/{parentCategory._id}" class="py-3 border-b border-black" id="{parentCategory._id}">
+					<div class="text-xl">
+					<span>En: {parentCategory.name['en']}</span>
+					<span>Tr: {parentCategory.name['tr']}</span>
+					</div>
+
+					
+				</a>
+			{/each}
+		</div>
+	{/if}
+
+	
+</div>
