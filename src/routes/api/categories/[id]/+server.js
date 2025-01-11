@@ -2,6 +2,7 @@ import { connectDB } from '$lib/helpers/db.js';
 import { ObjectId } from 'mongodb';
 
 export async function GET({ params }) {
+    console.log("sigma boi");
     const db = await connectDB();
     const categoryId = params.id;
 
@@ -12,8 +13,8 @@ export async function GET({ params }) {
     }
 
     return new Response(JSON.stringify(items));
-}
 
+}
 
 
 // export async function POST({ request, params }) {

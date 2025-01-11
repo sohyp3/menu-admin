@@ -26,10 +26,25 @@
 	
 
 	onMount(fetchCategoryData);
+
+async function sigma() {
+	try {
+		const response = await fetch('/api/dummy');
+		if (!response.ok) throw new Error('Failed to add dummy data');
+		const result = await response.json();
+		console.log(result.message);
+	} catch (error) {
+		console.error(error);
+	}
+}
+
 </script>
 
 <div class="p-3">
 	<h1 class="py-3 text-xl text-center border-b border-black">Parent Categories:</h1>
+<button on:click={sigma}>Add Dummy Data</button>
+
+
 
 	{#if isLoading}
 		<p class="text-center">Loading...</p>
