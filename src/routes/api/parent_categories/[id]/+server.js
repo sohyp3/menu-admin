@@ -13,14 +13,15 @@ export async function GET({ params }) {
     return new Response(JSON.stringify(categories));
 }
 
-
 async function getNextSequence(db, sequenceName) {
-    
-    const latestItem = await db.collection(sequenceName).findOne({},  { sort: { _id: -1 } });
-    const latest_item_id = latestItem._id
-    console.log(latest_item_id);
-    return latest_item_id ? parseInt(latest_item_id) + 1 : 69;
 
+    const counter = await db.collection('counters').findOneAndUpdate(
+        { _id: sequenceName },
+        { $inc: { sequence_value: 1 } },
+        { returnDocument: 'after', upsert: true }
+    );
+
+    return counter.sequence_value;
 
 }
 
@@ -31,20 +32,13 @@ export async function POST({ request, params }) {
     try {
         const data = await request.json();
 
-        // Validate input (add additional checks as needed)
-        // if (!data.name || !data.name.en || !data.name.tr) {
-        //     return new Response(JSON.stringify({ error: 'Name (en, tr) is required' }), { status: 400 });
-        // }
 
         if (data.image && !data.image.startsWith('http')) {
             return new Response(JSON.stringify({ error: 'Invalid image URL' }), { status: 400 });
         }
 
-        // Generate auto-incremented _id
         const nextId = await getNextSequence(db, 'categories')
 
-        console.log(data);
-        console.log("here");
         const category = {
             _id: nextId.toString(),
             "name": {
@@ -77,7 +71,7 @@ export async function PUT({ request, params }) {
         const data = await request.json();
         const result = await db.collection('categories').updateOne(
             { _id: categoryId },
-            { $set: data},
+            { $set: data },
         );
 
         if (!result.acknowledged) {

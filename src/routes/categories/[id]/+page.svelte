@@ -2,6 +2,7 @@
 	// @ts-nocheck
 	import { onMount, onDestroy } from 'svelte';
 	import { page } from '$app/stores';
+	import { json } from '@sveltejs/kit';
 
 	let category_id = $state(null);
 	let all_items= $state([]);
@@ -149,6 +150,7 @@
 			on:submit|preventDefault={async (event) => {
 				const formData = new FormData(event.target);
 				const jsonData = Object.fromEntries(formData.entries());
+				console.log(jsonData)
 				const response = await fetch(`/api/categories/${category_id}`, {
 					method: 'POST',
 					headers: {

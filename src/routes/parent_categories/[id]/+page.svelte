@@ -163,6 +163,7 @@
 				} else {
 					const newCategory = await response.json();
 					all_sub_categories = [...all_sub_categories, newCategory];
+				event.target.reset();
 				}
 			}}
 		>

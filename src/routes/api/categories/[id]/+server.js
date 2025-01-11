@@ -16,51 +16,46 @@ export async function GET({ params }) {
 
 
 
-export async function POST({ request, params }) {
-    const db = await connectDB();
-    const itemId= params.id; 
+// export async function POST({ request, params }) {
+//     console.log("ss");
+//     const db = await connectDB();
+//     const categoryId= params.id; 
 
-    try {
-        const data = await request.json();
+//     try {
+//         const data = await request.json();
+//         if (data.image && !data.image.startsWith('http')) {
+//             return new Response(JSON.stringify({ error: 'Invalid image URL' }), { status: 400 });
+//         }
 
-        // Validate input (add additional checks as needed)
-        // if (!data.name || !data.name.en || !data.name.tr) {
-        //     return new Response(JSON.stringify({ error: 'Name (en, tr) is required' }), { status: 400 });
-        // }
+//         console.log(data);
 
-        if (data.image && !data.image.startsWith('http')) {
-            return new Response(JSON.stringify({ error: 'Invalid image URL' }), { status: 400 });
-        }
+//         const category = {
+//             "name": {
+//                 "en": data.en,
+//                 "tr": data.tr,
+//             },
+//             "desc":{
+//                 "en": data.desc_en,
+//                 "tr": data.desc_tr,
+//             },
+//             price: data.price,
+//             parent_category_id: categoryId ? categoryId.toString() : null,
+//             image: data.image || null,
+//             created_at: new Date(),
+//         };
 
-        // Generate auto-incremented _id
+//         const result = await db.collection('categories').insertOne(category);
 
-        const category = {
-            "name": {
-                "en": data.en,
-                "tr": data.tr,
-            },
-            "desc":{
-                "en": data.desc_en,
-                "tr": data.desc_tr,
-            },
-            price: data.price,
-            parent_category_id: categoryId ? categoryId.toString() : null,
-            image: data.image || null,
-            created_at: new Date(),
-        };
+//         if (!result.acknowledged) {
+//             return new Response(JSON.stringify({ error: 'Category not created' }), { status: 500 });
+//         }
 
-        const result = await db.collection('categories').insertOne(category);
-
-        if (!result.acknowledged) {
-            return new Response(JSON.stringify({ error: 'Category not created' }), { status: 500 });
-        }
-
-        return new Response(JSON.stringify(category), { status: 201 });
-    } catch (error) {
-        console.error('Error creating category:', error);
-        return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
-    }
-}
+//         return new Response(JSON.stringify(category), { status: 201 });
+//     } catch (error) {
+//         console.error('Error creating category:', error);
+//         return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
+//     }
+// }
 
 
 export async function PUT({ request, params }) {
@@ -128,8 +123,8 @@ export async function POST({ request, params }) {
             category_id: categoryId ? categoryId : null,
             image: data.image || null,
             desc:{
-                "en": data.en_desc,
-                "tr": data.tr_desc,
+                "en": data.desc_en,
+                "tr": data.desc_tr,
             },
             price: data.price,
             created_at: new Date(),
