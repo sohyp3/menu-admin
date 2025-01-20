@@ -90,6 +90,28 @@
 									bind:value={item.name['tr']}
 								/>
 
+
+								<label class="block mt-2 text-sm font-medium text-gray-600">Turkish desc</label>
+								<input
+									type="text"
+									class="p-2 w-full rounded-lg border border-gray-300 focus:outline-none focus:ring focus:ring-blue-300"
+									bind:value={item.desc['tr']}
+								/>
+
+								<label class="block mt-2 text-sm font-medium text-gray-600">English Description</label>
+								<input
+									type="text"
+									class="p-2 w-full rounded-lg border border-gray-300 focus:outline-none focus:ring focus:ring-blue-300"
+									bind:value={item.desc['en']}
+								/>
+
+
+								<label class="block mt-2 text-sm font-medium text-gray-600">Price</label>
+								<input
+									type="text"
+									class="p-2 w-full rounded-lg border border-gray-300 focus:outline-none focus:ring focus:ring-blue-300"
+									bind:value={item.price}
+								/>
 								<label class="block mt-2 text-sm font-medium text-gray-600">Image URL</label>
 								<input
 									type="text"
@@ -117,13 +139,22 @@
 								<h1 class="mb-2">Name:</h1>
 								<p class="text-gray-900">En: {item.name['en']}</p>
 								<p class="text-gray-900">Tr: {item.name['tr']}</p>
+								<h1 class="mb-2">Desc:</h1>
+								<p class="text-gray-900">En: {item.desc['en']}</p>
+								<p class="text-gray-900">Tr: {item.desc['tr']}</p>
+								
+								<p class="text-gray-900">Price: {item.price}</p>
 								<p class="text-gray-900">
+
 									Image: <a
 										href={item.image}
 										target="_blank"
 										class="text-blue-500 hover:underline">View Image</a
 									>
 								</p>
+								<div>
+									<img src="{item.image}" alt="">
+								</div>
 								<div class="flex gap-3 mt-4">
 									<button
 										on:click={() => (editingItem= item._id)}
@@ -197,7 +228,6 @@
 					id="desc-en"
 					name="desc_en"
 					class="p-2 w-full rounded-lg border border-gray-300 focus:outline-none focus:ring focus:ring-blue-300"
-					required
 				/>
 			</div>
 
@@ -208,11 +238,10 @@
 					id="desc-tr"
 					name="desc_tr"
 					class="p-2 w-full rounded-lg border border-gray-300 focus:outline-none focus:ring focus:ring-blue-300"
-					required
 				/>
 			</div>
 
-			<div>
+			<!-- <div>
 				<label for="parent-category-id" class="block text-sm font-medium text-gray-600">
 					Parent Category ID
 				</label>
@@ -222,7 +251,7 @@
 					name="parent_category_id"
 					class="p-2 w-full rounded-lg border border-gray-300 focus:outline-none focus:ring focus:ring-blue-300"
 				/>
-			</div>
+			</div> -->
 
 
 			<div>

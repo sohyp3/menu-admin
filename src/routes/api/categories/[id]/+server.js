@@ -2,7 +2,6 @@ import { connectDB } from '$lib/helpers/db.js';
 import { ObjectId } from 'mongodb';
 
 export async function GET({ params }) {
-    console.log("sigma boi");
     const db = await connectDB();
     const categoryId = params.id;
 
@@ -17,47 +16,6 @@ export async function GET({ params }) {
 }
 
 
-// export async function POST({ request, params }) {
-//     console.log("ss");
-//     const db = await connectDB();
-//     const categoryId= params.id; 
-
-//     try {
-//         const data = await request.json();
-//         if (data.image && !data.image.startsWith('http')) {
-//             return new Response(JSON.stringify({ error: 'Invalid image URL' }), { status: 400 });
-//         }
-
-//         console.log(data);
-
-//         const category = {
-//             "name": {
-//                 "en": data.en,
-//                 "tr": data.tr,
-//             },
-//             "desc":{
-//                 "en": data.desc_en,
-//                 "tr": data.desc_tr,
-//             },
-//             price: data.price,
-//             parent_category_id: categoryId ? categoryId.toString() : null,
-//             image: data.image || null,
-//             created_at: new Date(),
-//         };
-
-//         const result = await db.collection('categories').insertOne(category);
-
-//         if (!result.acknowledged) {
-//             return new Response(JSON.stringify({ error: 'Category not created' }), { status: 500 });
-//         }
-
-//         return new Response(JSON.stringify(category), { status: 201 });
-//     } catch (error) {
-//         console.error('Error creating category:', error);
-//         return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
-//     }
-// }
-
 
 export async function PUT({ request, params }) {
     const db = await connectDB();
@@ -65,10 +23,31 @@ export async function PUT({ request, params }) {
 
     try {
         const data = await request.json();
+
+        // const item = {
+        //     "name": {
+        //         "en": data.en,
+        //         "tr": data.tr,
+        //     },
+        //     // category_id: categoryId ? categoryId : null,
+        //     image: data.image || null,
+        //     desc: {
+        //         "en": data.desc_en,
+        //         "tr": data.desc_tr,
+        //     },
+        //     price: data.price,
+        // };
+        
+
+        const item = {...data};
+        delete item._id;
+
         const result = await db.collection('items').updateOne(
-            { _id: itemId },
-            { $set: data},
+            { _id: new ObjectId(itemId) },
+            { $set: item},
         );
+
+        console.log(result);
 
         if (!result.acknowledged) {
             return new Response(JSON.stringify({ error: 'item not updated' }), { status: 500 });
@@ -84,7 +63,7 @@ export async function PUT({ request, params }) {
 
 export async function DELETE({ params }) {
     const db = await connectDB();
-    const itemId= params.id;
+    const itemId = params.id;
 
     try {
         const result = await db.collection('items').deleteOne({ _id: new ObjectId(itemId) });
@@ -105,7 +84,7 @@ export async function DELETE({ params }) {
 
 export async function POST({ request, params }) {
     const db = await connectDB();
-    const categoryId = params.id; 
+    const categoryId = params.id;
 
     try {
         const data = await request.json();
@@ -123,7 +102,7 @@ export async function POST({ request, params }) {
             },
             category_id: categoryId ? categoryId : null,
             image: data.image || null,
-            desc:{
+            desc: {
                 "en": data.desc_en,
                 "tr": data.desc_tr,
             },
