@@ -121,13 +121,13 @@
 
 								<div class="flex gap-3 mt-4">
 									<button
-										on:click={() => saveItem(item)}
+										onclick={() => saveItem(item)}
 										class="px-4 py-2 font-medium text-white bg-green-600 rounded-lg transition hover:bg-green-700"
 									>
 										Save
 									</button>
 									<button
-										on:click={() => (editingItem= null)}
+										onclick={() => (editingItem= null)}
 										class="px-4 py-2 font-medium text-white bg-gray-400 rounded-lg transition hover:bg-gray-500"
 									>
 										Cancel
@@ -157,13 +157,13 @@
 								</div>
 								<div class="flex gap-3 mt-4">
 									<button
-										on:click={() => (editingItem= item._id)}
+										onclick={() => (editingItem= item._id)}
 										class="px-4 py-2 font-medium text-white bg-blue-600 rounded-lg transition hover:bg-blue-700"
 									>
 										Edit
 									</button>
 									<button
-										on:click={() => deleteItem(item._id)}
+										onclick={() => deleteItem(item._id)}
 										class="px-4 py-2 font-medium text-white bg-red-600 rounded-lg transition hover:bg-red-700"
 									>
 										Delete
@@ -178,7 +178,8 @@
 
 		<form
 			class="p-6 mt-10 space-y-4 bg-white rounded-lg border border-gray-200 shadow-sm"
-			on:submit|preventDefault={async (event) => {
+			onsubmit={async (event) => {
+				event.preventDefault()
 				const formData = new FormData(event.target);
 				const jsonData = Object.fromEntries(formData.entries());
 				console.log(jsonData)
