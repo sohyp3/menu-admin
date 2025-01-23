@@ -43,7 +43,7 @@ export const actions = {
     },
     delete: async ({ request, }) => {
         const data = await request.formData();
-        item_id = data.get("id")
+        let item_id = data.get("id")
         await sql(`DELETE FROM item WHERE id = ${item_id}`);
 
 

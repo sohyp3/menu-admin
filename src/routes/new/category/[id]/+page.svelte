@@ -81,12 +81,12 @@
 							/>
 						</div>
 
-							<input
-								type="text"
-								name="price"
-								bind:value={item.price}
-								class="p-2 w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400"
-							/>
+						<input
+							type="text"
+							name="price"
+							bind:value={item.price}
+							class="p-2 w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400"
+						/>
 						<!-- <h1 class="col-span-1 px-2 text-center">{item.price}</h1> -->
 						<div class="col-span-2 px-2 w-full">
 							<input
@@ -98,7 +98,12 @@
 						</div>
 						<div class="flex col-span-1 gap-3 px-2 text-center">
 							<button class="p-1 rounded-md hover:bg-teal-100" type="submit">Save</button>
-							<span class="p-1 rounded-md hover:bg-red-100" onclick={()=>{editingItem = null}}>Cancel</span>
+							<button
+								class="p-1 rounded-md hover:bg-red-100"
+								onclick={() => {
+									editingItem = null;
+								}}>Cancel</button
+							>
 						</div>
 					</form>
 				{:else}
@@ -121,9 +126,15 @@
 							<img src={item.image} class="mx-auto w-6" alt="" />
 						</div>
 						<div class="flex col-span-1 gap-3 px-2 text-center">
-							<span class="p-1 rounded-md hover:bg-teal-100" onclick={()=>editingItem = item.id}>Edit</span><span
-								class="p-1 rounded-md hover:bg-red-100">Delete</span
+							<button
+								class="p-1 rounded-md hover:bg-teal-100"
+								onclick={() => (editingItem = item.id)}>Edit</button
 							>
+
+							<form action="?/delete" method="POST">
+								<input type="hidden" bind:value={item.id} name="id">
+								<button class="p-1 rounded-md hover:bg-red-100">Delete</button>
+							</form>
 						</div>
 					</div>
 				{/if}
