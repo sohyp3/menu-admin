@@ -1,67 +1,74 @@
 <script>
-	// @ts-nocheck
-	import { onMount } from 'svelte';
+	import { createUploader } from '$lib/helpers/uploadthing.js';
+	import { UploadButton, UploadDropzone } from '@uploadthing/svelte';
 
-	let fetchedParentCategories = $state([]);
-	let fetchedChildCategories = $state([]);
-	let mappedCategoriesWithChildren = $state([]);
-	let isLoading = $state(true);
-
-	async function fetchCategoryData() {
-		try {
-			// Fetch parent categories
-			const parentCategoriesResponse = await fetch(`/api/parent_categories`);
-			if (!parentCategoriesResponse.ok) throw new Error('Failed to fetch parent categories');
-			fetchedParentCategories = await parentCategoriesResponse.json();
-			console.log(fetchedParentCategories);
-
-			// Fetch child categories
-
-			isLoading = false;
-		} catch (error) {
-			console.error(error);
+	const uploader = createUploader('imageUploader', {
+		onClientUploadComplete: (res) => {
+			console.log(`onClientUploadComplete`, res);
+			alert('Upload Completed');
+		},
+		onUploadError: (error) => {
+			alert(`ERROR! ${error.message}`);
 		}
-	}
+	});
 
-	
-
-	onMount(fetchCategoryData);
-
-async function sigma() {
-	try {
-		const response = await fetch('/api/dummy');
-		if (!response.ok) throw new Error('Failed to add dummy data');
-		const result = await response.json();
-		console.log(result.message);
-	} catch (error) {
-		console.error(error);
-	}
-}
-
+	let { data } = $props();
 </script>
 
-<div class="p-3">
-	<h1 class="py-3 text-xl text-center border-b border-black">Parent Categories:</h1>
-<button on:click={sigma}>Add Dummy Data</button>
+<div class="bg-slate-100">
+	<div class="p-6 mx-auto max-w-3xl">
+		<h1 class="mb-6 text-2xl font-bold text-center">All Parent Categories</h1>
 
-
-
-	{#if isLoading}
-		<p class="text-center">Loading...</p>
-	{:else}
-		<div class="flex flex-col gap-10">
-			{#each fetchedParentCategories as parentCategory}
-				<a href="/parent_categories/{parentCategory._id}" class="py-3 border-b border-black" id="{parentCategory._id}">
-					<div class="text-xl">
-					<span>En: {parentCategory.name['en']}</span>
-					<span>Tr: {parentCategory.name['tr']}</span>
-					</div>
-
-					
-				</a>
+		<div class="flex flex-col gap-6 p-6 bg-teal-100 rounded-lg shadow-md">
+			<div class="grid grid-cols-5 gap-4 font-semibold text-gray-700">
+				<h1 class="col-span-1 text-left">Id</h1>
+				<h1 class="col-span-2 text-left">Turkish Name</h1>
+				<h1 class="col-span-2 text-left">English Name</h1>
+			</div>
+			{#each data.categories as category}
+				<div
+					class="grid grid-cols-5 p-3 rounded-md border-b border-gray-300 transition-colors hover:cursor-pointer hover:bg-teal-200"
+				>
+					<a href="/parent_category/{category.id}" class="col-span-1 text-left text-gray-800">{category.id}</a>
+					<a href="/parent_category/{category.id}" class="col-span-2 text-left text-gray-800">{category.name['tr']}</a>
+					<a href="/parent_category/{category.id}" class="col-span-2 text-left text-gray-800">{category.name['en']}</a>
+				</div>
 			{/each}
 		</div>
-	{/if}
+	</div>
 
-	
+	<div class="p-6 mx-auto mt-8 max-w-3xl rounded-lg shadow-md bg-slate-200">
+		<h2 class="mb-4 text-xl font-bold text-center">Add New Category</h2>
+		<form method="POST" class="flex flex-col gap-6 items-center">
+			<div class="flex flex-col gap-2 w-full">
+				<label for="name-tr" class="font-medium text-gray-700">Turkish Name</label>
+				<input
+					type="text"
+					name="name-tr"
+					id="name-tr"
+					required
+					class="p-2 w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400"
+				/>
+			</div>
+			<div class="flex flex-col gap-2 w-full">
+				<label for="name-en" class="font-medium text-gray-700">English Name</label>
+				<input
+					type="text"
+					name="name-en"
+					id="name-en"
+					required
+					class="p-2 w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400"
+				/>
+			</div>
+
+			<button
+				type="submit"
+				class="p-3 mt-4 text-white bg-teal-500 rounded-lg shadow-md transition-transform transform hover:scale-105 hover:bg-teal-600"
+			>
+				Create
+			</button>
+		</form>
+
+		<!-- <div><UploadButton {uploader} /></div> -->
+	</div>
 </div>

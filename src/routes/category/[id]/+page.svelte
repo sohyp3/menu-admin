@@ -146,16 +146,6 @@
 		<h2 class="mb-4 text-xl font-bold text-center">Add New Category</h2>
 		<form method="POST" action="?/create" class="flex flex-col gap-6 items-center">
 			<div class="flex flex-col gap-2 w-full">
-				<label for="name-tr" class="font-medium text-gray-700">Turkish Name</label>
-				<input
-					type="text"
-					name="name-tr"
-					id="name-tr"
-					required
-					class="p-2 w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400"
-				/>
-			</div>
-			<div class="flex flex-col gap-2 w-full">
 				<label for="name-en" class="font-medium text-gray-700">English Name</label>
 				<input
 					type="text"
@@ -167,13 +157,16 @@
 			</div>
 
 			<div class="flex flex-col gap-2 w-full">
-				<label for="name-en" class="font-medium text-gray-700">Turkish Description</label>
+				<label for="name-tr" class="font-medium text-gray-700">Turkish Name</label>
 				<input
 					type="text"
-					name="desc-tr"
+					name="name-tr"
+					id="name-tr"
+					required
 					class="p-2 w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400"
 				/>
 			</div>
+
 
 			<div class="flex flex-col gap-2 w-full">
 				<label for="name-en" class="font-medium text-gray-700">English Description</label>
@@ -184,12 +177,22 @@
 				/>
 			</div>
 
+
+			<div class="flex flex-col gap-2 w-full">
+				<label for="name-en" class="font-medium text-gray-700">Turkish Description</label>
+				<input
+					type="text"
+					name="desc-tr"
+					class="p-2 w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400"
+				/>
+			</div>
 			<div class="flex flex-col gap-2 w-full">
 				<label for="name-en" class="font-medium text-gray-700">Price</label>
 				<input
 					type="text"
 					name="price"
 					required
+					value="200"
 					class="p-2 w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400"
 				/>
 			</div>

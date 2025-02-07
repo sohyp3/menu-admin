@@ -32,11 +32,20 @@
 		"vite": "^5.4.11"
 	},
 	"dependencies": {
+		"@lucia-auth/sveltekit": "^0.6.11",
 		"@neondatabase/serverless": "^0.10.4",
+		"@oslojs/crypto": "^1.0.1",
+		"@oslojs/encoding": "^1.1.0",
 		"@tailwindcss/forms": "^0.5.9",
 		"@uploadthing/svelte": "^7.1.5",
+		"bcrypt": "^5.1.1",
+		"bcryptjs": "^2.4.3",
+		"cookie": "^1.0.2",
 		"dotenv": "^16.4.7",
+		"lucia": "^3.2.2",
 		"mongodb": "^6.12.0",
+		"pg": "^8.13.1",
+		"sveltekit-superforms": "^2.23.1",
 		"uploadthing": "^7.4.4"
 	}
 }
