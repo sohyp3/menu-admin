@@ -33,12 +33,13 @@
 		</h1>
 
 		<div class="flex flex-col gap-6 p-6 bg-teal-100 rounded-lg shadow-md">
-			<div class="grid grid-cols-9 gap-4 font-semibold text-gray-700">
+			<div class="grid grid-cols-10 gap-4 font-semibold text-gray-700">
 				<h1 class="col-span-1 pl-2 text-center">Id</h1>
 				<h1 class="col-span-2 text-center">Turkish</h1>
 				<h1 class="col-span-2 text-center">English</h1>
 				<h1 class="col-span-1 text-center">Price</h1>
 				<h1 class="col-span-2 text-center">image</h1>
+				<h1 class="col-span-1 text-center">active</h1>
 				<h1 class="col-span-1 pr-2 text-center">Action</h1>
 			</div>
 			{#each data.items as item}
@@ -46,7 +47,7 @@
 					<form
 						action="?/update"
 						method="POST"
-						class="grid grid-cols-9 items-center p-3 rounded-md border-b border-gray-300 divide-x-2 divide-black transition-colors hover:cursor-pointer hover:bg-teal-200"
+						class="grid grid-cols-10 items-center p-3 rounded-md border-b border-gray-300 divide-x-2 divide-black transition-colors hover:cursor-pointer hover:bg-teal-200"
 					>
 						<input type="hidden" name="id" value={item.id} />
 						<h1 class="col-span-1 px-2 text-center text-gray-800">
@@ -96,6 +97,17 @@
 								class="p-2 w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400"
 							/>
 						</div>
+
+						<div class="flex col-span-1 justify-center items-center">
+							<input
+								type="checkbox"
+								name="active"
+								bind:checked={item.active}
+								class="w-4 h-4 rounded-md"
+							/>
+							
+						</div>
+
 						<div class="flex col-span-1 gap-3 px-2 text-center">
 							<button class="p-1 rounded-md hover:bg-teal-100" type="submit">Save</button>
 							<button
@@ -108,7 +120,7 @@
 					</form>
 				{:else}
 					<div
-						class="grid grid-cols-9 items-center p-3 rounded-md border-b border-gray-300 divide-x-2 divide-black transition-colors hover:cursor-pointer hover:bg-teal-200"
+						class="grid grid-cols-10 items-center p-3 rounded-md border-b border-gray-300 divide-x-2 divide-black transition-colors hover:cursor-pointer hover:bg-teal-200"
 					>
 						<h1 class="col-span-1 px-2 text-center text-gray-800">
 							{item.id}
@@ -123,7 +135,14 @@
 						</div>
 						<h1 class="col-span-1 px-2 text-center">{item.price}</h1>
 						<div class="col-span-2 px-2 w-full">
-							<img src={item.image} class="mx-auto w-6" alt="" />
+							<img src={item.image} class="mx-auto w-24" alt="" />
+						</div>
+						<div class="flex col-span-1 justify-center items-center">
+							{#if item.active}
+							<p>active</p>
+							{:else}
+							<p>inactive</p>
+							{/if}
 						</div>
 						<div class="flex col-span-1 gap-3 px-2 text-center">
 							<button

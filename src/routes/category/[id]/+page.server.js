@@ -68,13 +68,18 @@ export const actions = {
 
 
 
+        let activeStatus = data.get("active") === 'on'
+
+
         await sql(`
         UPDATE item 
     SET 
         name = jsonb_set(jsonb_set(name::jsonb, '{en}', to_jsonb('${names.en}'::text)), '{tr}', to_jsonb('${names.tr}'::text)),
         description = jsonb_set(jsonb_set(description::jsonb, '{en}', to_jsonb('${descs.en}'::text)), '{tr}', to_jsonb('${descs.tr}'::text)),
         price = '${data.get("price")}',
-        image = '${data.get("image")}'
+        image = '${data.get("image")}',
+        active = ${activeStatus}
+
     WHERE id = ${data.get("id")};
         
         `);
