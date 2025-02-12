@@ -1,6 +1,7 @@
 <script>
 	import { createUploader } from '$lib/helpers/uploadthing.js';
 	import { UploadButton, UploadDropzone } from '@uploadthing/svelte';
+	import { enhance } from '$app/forms';
 
 	let is_uploading = $state(false);
 	let editingItem = $state(null);
@@ -24,13 +25,16 @@
 	});
 
 	let { data } = $props();
+	console.log(data.category[0]);
 </script>
 
 <div class="bg-slate-100">
 	<div class="p-6 mx-auto max-w-5xl">
 		<h1 class="mb-6 text-2xl font-bold text-center">
 			Categories for {data.category[0].name['en']}
+
 		</h1>
+		<a href="/parent_category/{data.category[0].parent_id}" class="text-teal-600">Go Back to Parent Category</a>
 
 		<div class="flex flex-col gap-6 p-6 bg-teal-100 rounded-lg shadow-md">
 			<div class="grid grid-cols-10 gap-4 font-semibold text-gray-700">
@@ -44,7 +48,7 @@
 			</div>
 			{#each data.items as item}
 				{#if editingItem === item.id}
-					<form
+					<form 
 						action="?/update"
 						method="POST"
 						class="grid grid-cols-10 items-center p-3 rounded-md border-b border-gray-300 divide-x-2 divide-black transition-colors hover:cursor-pointer hover:bg-teal-200"
